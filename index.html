@@ -26,7 +26,6 @@
             text-align: center;
         }
 
-        /* BANNER */
         .banner {
             background: #222;
             padding: 15px;
@@ -34,48 +33,16 @@
             border-radius: 8px;
         }
 
-        .banner h1 {
-            font-size: 20px;
-        }
-
-        /* FOTO PERFIL */
-        .profile-container {
-            margin: 15px 0;
-        }
-
         .profile-container img {
             width: 120px;
             height: 120px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid #444;
-            pointer-events: none;
-            /* dificulta interação */
-            user-select: none;
-        }
-
-        input[type="file"] {
-            margin-top: 10px;
-            color: #fff;
         }
 
         section {
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             text-align: left;
-        }
-
-        h2 {
-            margin-bottom: 10px;
-            border-bottom: 1px solid #444;
-            padding-bottom: 5px;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        ul li {
-            margin-bottom: 5px;
         }
 
         main {
@@ -88,128 +55,83 @@
             padding: 15px;
             margin-bottom: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
+        input,
+        textarea {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 5px;
         }
 
-        .tag {
-            display: inline-block;
-            background: #333;
+        button {
+            padding: 10px;
+            background: #111;
             color: #fff;
-            padding: 5px 10px;
-            margin: 3px;
-            border-radius: 5px;
-            font-size: 12px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
         }
     </style>
 </head>
 
 <body>
 
-    <!-- SIDEBAR -->
     <aside>
-
-        <!-- BANNER + NOME -->
         <div class="banner">
-            <h1>Seu Nome Aqui</h1>
+            <input id="nome" placeholder="Seu nome">
         </div>
 
-        <!-- FOTO PERFIL -->
         <div class="profile-container">
-            <img id="profileImage" src="https://via.placeholder.com/120" alt="Foto de perfil">
-            <input type="file" id="upload" accept="image/*">
+            <img id="profileImage" src="https://via.placeholder.com/120">
+            <input type="file" id="upload">
         </div>
 
-        <!-- 1. DADOS PARA CONTATO -->
         <section>
             <h2>Contato</h2>
-            <ul>
-                <li>Email: seuemail@email.com</li>
-                <li>LinkedIn: linkedin.com/in/seu</li>
-                <li>GitHub: github.com/seu</li>
-            </ul>
+            <input id="email" placeholder="Email">
+            <input id="linkedin" placeholder="LinkedIn">
+            <input id="github" placeholder="GitHub">
         </section>
 
-        <!-- 2. HABILIDADES PESSOAIS E ESPECIALIDADES -->
         <section>
             <h2>Habilidades</h2>
-            <ul>
-                <li>Comunicação</li>
-                <li>Trabalho em equipe</li>
-                <li>Pensamento analítico</li>
-            </ul>
+            <textarea id="habilidades"></textarea>
 
             <h2>Especialidades</h2>
-            <ul>
-                <li>Machine Learning</li>
-                <li>Data Engineering</li>
-                <li>Modelagem de Dados</li>
-            </ul>
+            <textarea id="especialidades"></textarea>
         </section>
 
-        <!-- 3. OUTRAS TECNOLOGIAS -->
         <section>
             <h2>Tecnologias</h2>
-            <div>
-                <span class="tag">Python</span>
-                <span class="tag">SQL</span>
-                <span class="tag">Docker</span>
-                <span class="tag">AWS</span>
-                <span class="tag">Spark</span>
-            </div>
+            <textarea id="tecnologias"></textarea>
         </section>
 
     </aside>
 
-    <!-- CONTEÚDO PRINCIPAL -->
     <main>
 
-        <!-- RESUMO -->
         <div class="card">
-            <h2>Resumo do Perfil</h2>
-            <p>
-                Engenheiro de Machine Learning com experiência em construção de pipelines de dados,
-                modelos preditivos e sistemas escaláveis.
-            </p>
+            <h2>Resumo</h2>
+            <textarea id="resumo"></textarea>
         </div>
 
-        <!-- PORTFÓLIO -->
         <div class="card">
             <h2>Portfólio</h2>
-            <div class="grid">
-                <div class="card">
-                    <h3>Projeto 1</h3>
-                    <p>Sistema de recomendação usando embeddings.</p>
-                </div>
-                <div class="card">
-                    <h3>Projeto 2</h3>
-                    <p>Pipeline de dados com Airflow e Spark.</p>
-                </div>
-            </div>
+            <textarea id="portfolio"></textarea>
         </div>
 
-        <!-- EXPERIÊNCIA -->
         <div class="card">
             <h2>Experiência</h2>
-            <ul>
-                <li>Empresa X - Engenheiro ML (2023 - atual)</li>
-                <li>Empresa Y - Cientista de Dados (2021 - 2023)</li>
-            </ul>
+            <textarea id="experiencia"></textarea>
         </div>
 
-        <!-- CURSOS -->
         <div class="card">
             <h2>Cursos</h2>
-            <ul>
-                <li>Machine Learning - Coursera</li>
-                <li>Deep Learning - Udemy</li>
-            </ul>
+            <textarea id="cursos"></textarea>
         </div>
+
+        <button onclick="salvarTXT()">Salvar em TXT</button>
 
     </main>
 
@@ -219,20 +141,48 @@
 
         upload.addEventListener('change', function () {
             const file = this.files[0];
-
             if (file) {
                 const reader = new FileReader();
-
-                reader.onload = function (e) {
-                    profileImage.src = e.target.result;
-                }
-
+                reader.onload = e => profileImage.src = e.target.result;
                 reader.readAsDataURL(file);
             }
         });
 
-        // Bloqueios básicos (não é segurança real)
-        document.addEventListener('contextmenu', e => e.preventDefault());
+        function salvarTXT() {
+            const dados = `
+Nome: ${document.getElementById('nome').value}
+Email: ${document.getElementById('email').value}
+LinkedIn: ${document.getElementById('linkedin').value}
+GitHub: ${document.getElementById('github').value}
+
+Habilidades:
+${document.getElementById('habilidades').value}
+
+Especialidades:
+${document.getElementById('especialidades').value}
+
+Tecnologias:
+${document.getElementById('tecnologias').value}
+
+Resumo:
+${document.getElementById('resumo').value}
+
+Portfólio:
+${document.getElementById('portfolio').value}
+
+Experiência:
+${document.getElementById('experiencia').value}
+
+Cursos:
+${document.getElementById('cursos').value}
+`;
+
+            const blob = new Blob([dados], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'portfolio.txt';
+            link.click();
+        }
     </script>
 
 </body>
